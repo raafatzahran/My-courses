@@ -1,12 +1,6 @@
 var testApp = angular.module('testApp', []);
 
 testApp.controller('testController' , function ($scope, $http) {
-    $scope.home = "This is the homepage";
-    $scope.firstName='';
-    $scope.lastName='';
-    $scope.email='';
-    $scope.password='';
-
 
 //    Our GET request function
     $scope.getRequest = function () {
@@ -22,9 +16,19 @@ testApp.controller('testController' , function ($scope, $http) {
 
 //    Our POST request function
     $scope.postRequest = function () {
-        $http.post("http://localhost:7071/api/users/", data)
+        bodyReq={
+            "firstName":$scope.firstName,
+            "lastName":$scope.lastName,
+            "email":$scope.email,
+            "password":$scope.password
+        };
+        $http.post("http://localhost:7071/api/users/", bodyReq)
             .then(function successCallback(response){
                 console.log("Successfully POST-ed data");
+                $scope.firstName='';
+                $scope.lastName='';
+                $scope.email='';
+                $scope.password='';
             }, function errorCallback(response){
                 console.log("POST-ing of data failed");
             });

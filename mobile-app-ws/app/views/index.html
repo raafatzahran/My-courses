@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script type="text/javascript" src="../controllers/mainController.js"></script>
 <body>
 
 <div ng-app="testApp" ng-controller="testController">
@@ -14,48 +15,6 @@
     <button ng-click="postRequest()">Test Rest</button>
 
 </div>
-
-<script>
-    var testApp = angular.module('testApp', []);
-
-    testApp.controller('testController' , function ($scope, $http) {
-        $scope.home = "This is the homepage";
-        $scope.firstName='userapi';
-        $scope.lastName='lastapi';
-        $scope.email='emailapi';
-        $scope.password='passapi';
-        $scope.bodyReq={
-            "firstName":$scope.firstName,
-            "lastName":$scope.lastName,
-            "email":$scope.email,
-            "password":$scope.password
-        };
-
-
-//    Our GET request function
-        $scope.getRequest = function () {
-            console.log("I've been pressed!");
-            $http.get("http://localhost:7071/api/users/")
-                .then(function successCallback(response){
-                    console.log("Successfully POST-ed data");
-                    $scope.response = response;
-                }, function errorCallback(response){
-                    console.log("Unable to perform get request");
-                });
-        };
-
-//    Our POST request function
-        $scope.postRequest = function () {
-            $http.post("http://localhost:7071/api/users/", $scope.bodyReq)
-                .then(function successCallback(response){
-                    console.log("Successfully POST-ed data");
-                }, function errorCallback(response){
-                    console.log("POST-ing of data failed");
-                });
-        };
-
-    });
-</script>
 
 </body>
 </html>
