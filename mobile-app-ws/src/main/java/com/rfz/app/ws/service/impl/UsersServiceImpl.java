@@ -1,6 +1,7 @@
 package com.rfz.app.ws.service.impl;
 
 import com.rfz.app.ws.exceptions.CouldNotCreateRecordException;
+import com.rfz.app.ws.exceptions.NoRecordFoundException;
 import com.rfz.app.ws.io.dao.DAO;
 import com.rfz.app.ws.io.dao.impl.MYSQLDAO;
 import com.rfz.app.ws.service.UsersService;
@@ -44,6 +45,20 @@ public class UsersServiceImpl implements UsersService {
         // Record data into a database
         returnValue = this.saveUser(user);
 
+        return returnValue;
+    }
+
+    public UserDTO getUser(String id) {
+        UserDTO returnValue = null;
+        try {
+            this.database.openConnection();
+            returnValue = this.database.getUser(id);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new NoRecordFoundException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+        } finally {
+            this.database.closeConnection();
+        }
         return returnValue;
     }
 
