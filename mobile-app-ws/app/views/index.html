@@ -12,7 +12,13 @@
     Password: <input type="text" ng-model="password"><br>
     <br>
     Full Name: {{firstName + " " + lastName + " " + email + " " + password}}
-    <button ng-click="postRequest()">Test Rest</button>
+    <button ng-click="postRequest()">Test post</button>
+
+    userId: <input type="text" ng-model="userId"><br>
+    <br>
+    userId: {{userId}}
+    {{response.firstName + " " + response.lastName + " " + response.email + " " + response.passwor}}
+    <button ng-click="getRequest()">Test get</button>
 
 </div>
 
