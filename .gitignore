@@ -1,14 +1,14 @@
-ntellij
-.idea/
-*.iml
-*.iws
+# Intellij
+mobile-app-ws/.idea/
+mobile-app-ws/*.iml
+mobile-app-ws/*.iws
 
 # Mac
 .DS_Store
 
 # Maven
-log/
-target/
+mobile-app-ws/log/
+mobile-app-ws/target/
 
 # External code
-../jax-rs
+jax-rs/*
