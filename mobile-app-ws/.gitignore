@@ -9,3 +9,6 @@
 # Maven
 log/
 target/
+
+# External code
+./jax-rs/mobile-app-ws-on-video
