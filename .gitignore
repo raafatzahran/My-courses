@@ -12,3 +12,6 @@ mobile-app-ws/target/
 
 # External code
 jax-rs/*
+
+# Tomcat server folder
+../dev/tomcat/*
