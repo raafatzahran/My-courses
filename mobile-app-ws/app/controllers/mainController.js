@@ -2,7 +2,7 @@ var testApp = angular.module('testApp', []);
 
 testApp.controller('testController' , function ($scope, $http) {
 
-//    Our GET request function
+//  Our GET request function
     $scope.getRequest = function () {
         console.log("I've been pressed!");
         id = $scope.userId;
