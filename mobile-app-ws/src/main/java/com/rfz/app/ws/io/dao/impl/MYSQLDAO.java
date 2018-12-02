@@ -4,10 +4,12 @@ import com.rfz.app.ws.io.dao.DAO;
 import com.rfz.app.ws.io.entity.UserEntity;
 import com.rfz.app.ws.shared.dto.UserDTO;
 import com.rfz.app.ws.utils.HibernateUtils;
+import com.rfz.app.ws.com.rfz.app.ws.jdbc.ConnectionManager;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.BeanUtils;
 
+import java.sql.*;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -16,6 +18,7 @@ import org.hibernate.Session;
 
 public class MYSQLDAO implements DAO {
     Session session;
+    private final Connection con = ConnectionManager.getConnection();
 
     @Override
     public void openConnection() {
@@ -50,22 +53,30 @@ public class MYSQLDAO implements DAO {
     }
 
     public UserDTO getUser(String id) {
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-
-        //Create Criteria against a particular persistent class
-        CriteriaQuery<UserEntity> criteria = cb.createQuery(UserEntity.class);
-
-        //Query roots always reference entitie
-        Root<UserEntity> profileRoot = criteria.from(UserEntity.class);
-        criteria.select(profileRoot);
-        criteria.where(cb.equal(profileRoot.get("userId"), id));
-
-        // Fetch single result
-        UserEntity userEntity = session.createQuery(criteria).getSingleResult();
-
+        String strSelect = "SELECT * FROM users WHERE userId = ?";
+        UserEntity userEntity = new UserEntity();
         UserDTO userDto = new UserDTO();
-        BeanUtils.copyProperties(userEntity, userDto);
-
+        try {
+            //final  Connection con = ConnectionManager.getConnection();
+            final PreparedStatement ps = con.prepareStatement(strSelect);
+            ps.setString(1,id);
+            final ResultSet rs = ps.executeQuery();
+            System.out.println("--->>> The ps = " + ps.toString());
+            if (rs.next()) {
+                userEntity.setFirstName(rs.getString("firstName"));
+                userEntity.setLastName(rs.getString("lastName"));
+                userEntity.setEmail(rs.getString("email"));
+                userEntity.setId(rs.getLong("id"));
+                userEntity.setEncryptedPassword(rs.getString("encryptedPassword"));
+                userEntity.setSalt(rs.getString("salt"));
+                System.out.println("--->>> in userEntity = " + userEntity.toString());
+            }
+            System.out.println("--->>> out userEntity = " + userEntity.toString());
+            BeanUtils.copyProperties(userEntity, userDto);
+            System.out.println("--->>> out userDto = " + userDto.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return userDto;
     }
 
