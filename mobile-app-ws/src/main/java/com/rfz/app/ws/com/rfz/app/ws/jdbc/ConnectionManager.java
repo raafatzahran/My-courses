@@ -18,8 +18,8 @@ public class ConnectionManager {
 
     public static Connection getConnection() {
         try {
-            DriverManager.registerDriver((Driver) Class.forName("com.mysql.jdbc.Driver").newInstance());
-            Class.forName(driverName);
+            DriverManager.registerDriver((Driver) Class.forName(driverName).newInstance());
+            //Class.forName(driverName);
             try {
                 con = DriverManager.getConnection(url, username, password);
             } catch (SQLException ex) {
